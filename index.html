@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MARTINBUILDS OS</title>
+    <title>BUILDMODE OS</title>
     <style>
         :root {
             --bg-dark: #020617;
@@ -106,7 +106,7 @@
 
     <div class="os-container">
         <aside class="sidebar">
-            <div class="logo">MARTIN<span>BUILDS</span> OS</div>
+            <div class="logo">BUILD<span>MODE</span> OS</div>
             <button class="nav-btn home-btn" onclick="loadApp('dashboard.html')">🏠 HOME DASHBOARD</button>
             <nav id="menu">
                 <div class="section-label">CONTROLS</div>
@@ -224,7 +224,7 @@
                 document.getElementById('note-area').value;
             const blob = new Blob([content], { type: 'text/plain' });
             const anchor = document.createElement('a');
-            anchor.download = `martinbuilds-data.${view === 'csv' ? 'csv' : 'txt'}`;
+            anchor.download = `buildmode-data.${view === 'csv' ? 'csv' : 'txt'}`;
             anchor.href = window.URL.createObjectURL(blob);
             anchor.click();
         }
