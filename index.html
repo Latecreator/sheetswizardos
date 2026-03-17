@@ -134,6 +134,72 @@
         .section-items.expanded {
             display: block;
         }
+
+        .search-wrap {
+            margin-bottom: 15px;
+        }
+
+        .search-wrap input {
+            width: 100%;
+            padding: 8px 10px 8px 28px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(16, 124, 65, 0.4);
+            border-radius: 6px;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            font-family: inherit;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .search-wrap input:focus {
+            border-color: var(--accent-light);
+        }
+
+        .search-wrap input::placeholder {
+            color: var(--text-dim);
+            opacity: 0.6;
+        }
+
+        .search-wrap {
+            position: relative;
+        }
+
+        .search-wrap::before {
+            content: '🔍';
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.7rem;
+            pointer-events: none;
+        }
+
+        #search-results {
+            display: none;
+        }
+
+        #search-results.active {
+            display: block;
+        }
+
+        #search-results .nav-btn {
+            font-size: 0.85rem;
+        }
+
+        #search-results .search-section-tag {
+            font-size: 0.6rem;
+            color: var(--accent-light);
+            opacity: 0.7;
+            margin-left: 4px;
+        }
+
+        .search-no-results {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            padding: 10px 5px;
+            opacity: 0.6;
+        }
     </style>
 </head>
 <body>
@@ -145,9 +211,15 @@
             <nav id="menu">
                 <div class="section-label">CONTROLS</div>
                 <button class="nav-btn" style="border: 1px solid var(--accent-green);" onclick="toggleNotes()">↔️ Toggle Notes Panel</button>
+                <div class="search-wrap">
+                    <input type="text" id="sidebar-search" placeholder="Search tools..." autocomplete="off">
+                </div>
+                <div id="search-results"></div>
+                <div id="menu-sections">
                 <div class="section-label collapsible" id="tools-header">TUTORIALS</div>
                 <div class="section-label collapsible" id="formulas-header">FORMULAS</div>
                 <div class="section-label collapsible" id="functions-header">FUNCTIONS</div>
+                </div>
             </nav>
         </aside>
 
@@ -212,14 +284,17 @@
                     const itemsDiv = document.getElementById(section.id + '-items');
 
                     if (Array.isArray(files)) {
+                        const sectionName = document.getElementById(section.id).textContent;
                         const htmlFiles = files.filter(f => f.name.endsWith('.html')).sort((a, b) => a.name.localeCompare(b.name));
                         htmlFiles.forEach(file => {
                             const btn = document.createElement('button');
                             btn.className = 'nav-btn';
                             const displayName = file.name.replace('.html', '').replace(/-/g, ' ');
+                            const filePath = `${section.pathPrefix}${file.name}`;
                             btn.innerHTML = `📊 ${displayName}`;
-                            btn.onclick = () => loadApp(`${section.pathPrefix}${file.name}`);
+                            btn.onclick = () => loadApp(filePath);
                             itemsDiv.appendChild(btn);
+                            searchIndex.push({ displayName, path: filePath, section: sectionName, content: '' });
                         });
                     }
                 } catch (err) {
@@ -228,6 +303,73 @@
             });
 
             await Promise.all(fetches);
+
+            // Build content search index in background
+            buildSearchIndex();
+
+            // Attach search handler
+            document.getElementById('sidebar-search').addEventListener('input', handleSearch);
+        }
+
+        // Search index: populated after menu loads
+        let searchIndex = [];
+
+        async function buildSearchIndex() {
+            const parser = new DOMParser();
+            const indexPromises = searchIndex.map(async (item) => {
+                try {
+                    const res = await fetch(item.path);
+                    if (!res.ok) return;
+                    const html = await res.text();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const title = doc.querySelector('title')?.textContent || '';
+                    const headings = Array.from(doc.querySelectorAll('h1, h2, h3')).map(h => h.textContent).join(' ');
+                    const body = doc.body?.textContent || '';
+                    item.content = `${title} ${headings} ${body}`.toLowerCase();
+                } catch (err) {
+                    item.content = '';
+                }
+            });
+            await Promise.all(indexPromises);
+        }
+
+        function handleSearch() {
+            const query = document.getElementById('sidebar-search').value.trim().toLowerCase();
+            const resultsDiv = document.getElementById('search-results');
+            const menuSections = document.getElementById('menu-sections');
+
+            if (!query) {
+                resultsDiv.classList.remove('active');
+                resultsDiv.innerHTML = '';
+                menuSections.style.display = '';
+                return;
+            }
+
+            menuSections.style.display = 'none';
+            resultsDiv.classList.add('active');
+            resultsDiv.innerHTML = '';
+
+            const matches = searchIndex.filter(item =>
+                item.displayName.toLowerCase().includes(query) ||
+                item.content.includes(query)
+            );
+
+            if (matches.length === 0) {
+                resultsDiv.innerHTML = '<div class="search-no-results">No matches found</div>';
+                return;
+            }
+
+            matches.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = 'nav-btn';
+                btn.innerHTML = `📊 ${item.displayName}<span class="search-section-tag"> · ${item.section}</span>`;
+                btn.onclick = () => {
+                    loadApp(item.path);
+                    document.getElementById('sidebar-search').value = '';
+                    handleSearch();
+                };
+                resultsDiv.appendChild(btn);
+            });
         }
 
         function loadApp(url) { document.getElementById('stage').src = url; }
