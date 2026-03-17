@@ -218,7 +218,6 @@
                 <div id="menu-sections">
                 <div class="section-label collapsible" id="tools-header">TUTORIALS</div>
                 <div class="section-label collapsible" id="formulas-header">FORMULAS</div>
-                <div class="section-label collapsible" id="functions-header">FUNCTIONS</div>
                 </div>
             </nav>
         </aside>
@@ -257,8 +256,7 @@
         // --- 2. DYNAMIC MENU SYNC ---
         const MENU_SECTIONS = [
             { id: 'tools-header', folder: 'tools', pathPrefix: './tools/' },
-            { id: 'formulas-header', folder: 'tools/formulas', pathPrefix: './tools/formulas/' },
-            { id: 'functions-header', folder: 'tools/functions', pathPrefix: './tools/functions/' }
+            { id: 'formulas-header', folder: 'tools/formulas', pathPrefix: './tools/formulas/' }
         ];
 
         async function autoUpdateMenu() {
