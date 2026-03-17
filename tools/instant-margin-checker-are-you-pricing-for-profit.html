@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instant Margin Checker — Sheets Wizard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --green: #217346; --green-light: #2a8f5a; --green-pale: #e8f4ed; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; }
+    .green-bg { background-color: var(--green); }
+    .green-text { color: var(--green); }
+    .green-pale-bg { background-color: var(--green-pale); }
+    .green-border { border-color: var(--green); }
+    .formula-code {
+      font-family: 'Consolas', 'Courier New', monospace;
+      background: #1e1e1e;
+      color: #4ec9b0;
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    input[type="number"] {
+      border: 2px solid #d1d5db;
+      border-radius: 6px;
+      padding: 0.5rem 0.75rem;
+      font-size: 1rem;
+      width: 100%;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    input[type="number"]:focus { border-color: var(--green); }
+    .result-pass { background: #d1fae5; color: #065f46; border-left: 4px solid #10b981; }
+    .result-fail { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
+    .result-neutral { background: #f3f4f6; color: #374151; border-left: 4px solid #9ca3af; }
+    .panel { border-radius: 12px; border: 1px solid #e5e7eb; padding: 1.5rem; }
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+  <!-- Header bar -->
+  <div class="green-bg py-3 px-6 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <span class="text-white font-bold text-lg tracking-wide">📊 Sheets Wizard</span>
+    </div>
+    <span class="text-green-100 text-sm font-medium">Excel Formula Tips</span>
+  </div>
+
+  <div class="max-w-2xl mx-auto px-4 py-10">
+
+    <!-- Hero -->
+    <div class="text-center mb-10">
+      <div class="green-text font-semibold text-sm uppercase tracking-widest mb-2">Pricing & Margins</div>
+      <h1 class="text-3xl font-bold text-gray-900 leading-tight mb-3">
+        Instant Margin Checker
+      </h1>
+      <p class="text-gray-600 text-base mb-6">
+        Stop accepting bad margins without realising it. This formula shows your exact margin percentage — and flags it if you're underpricing.
+      </p>
+      <div class="formula-code text-left">
+        =IF((B2-A2)/B2 &lt; C2,<br>
+        &nbsp;&nbsp;"❌ " &amp; TEXT((B2-A2)/B2, "0.0%") &amp; " — reprice",<br>
+        &nbsp;&nbsp;"✅ " &amp; TEXT((B2-A2)/B2, "0.0%") &amp; " margin")
+      </div>
+      <p class="text-gray-500 text-sm mt-3">
+        A2 = cost &nbsp;·&nbsp; B2 = selling price &nbsp;·&nbsp; C2 = target margin (e.g. 0.3 for 30%)
+      </p>
+    </div>
+
+    <!-- Use case panels -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+      <div class="panel bg-white">
+        <span class="badge green-bg text-white mb-3">Solopreneur</span>
+        <h3 class="font-bold text-gray-900 mb-2">Pricing a Digital Product</h3>
+        <p class="text-gray-600 text-sm">
+          You made an Excel template that cost you £10 in tools/time. You're selling it at £27 and you want at least 60% margin. Enter the numbers — the formula tells you instantly if you're hitting your target or leaving money on the table.
+        </p>
+        <div class="formula-code text-xs mt-3 whitespace-normal">
+          =IF((27-10)/27 &lt; 0.6, "❌ 37.0% — reprice", "✅ 37.0% margin")<br>
+          <span class="text-yellow-300">→ ❌ 37.0% — reprice</span>
+        </div>
+      </div>
+      <div class="panel bg-white">
+        <span class="badge green-bg text-white mb-3">Small Business</span>
+        <h3 class="font-bold text-gray-900 mb-2">Checking Product Pricing</h3>
+        <p class="text-gray-600 text-sm">
+          You stock a product at £8.50 cost and sell it at £19.99. Your business needs 50% margin to cover overheads. Run it through the formula — are you actually hitting that number, or is the margin tighter than you thought?
+        </p>
+        <div class="formula-code text-xs mt-3 whitespace-normal">
+          =IF((19.99-8.50)/19.99 &lt; 0.5, "❌ ...", "✅ 57.5% margin")<br>
+          <span class="text-green-400">→ ✅ 57.5% margin</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Calculator -->
+    <div class="bg-white rounded-2xl border border-gray-200 p-6 mb-10 shadow-sm">
+      <h2 class="font-bold text-gray-900 text-xl mb-1">Try It Live</h2>
+      <p class="text-gray-500 text-sm mb-6">Enter your numbers — your margin is calculated instantly.</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">Cost Price (£)</label>
+          <input type="number" id="cost" value="10" min="0" step="0.01" oninput="calculate()" />
+          <p class="text-gray-400 text-xs mt-1">What it costs you</p>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">Selling Price (£)</label>
+          <input type="number" id="price" value="25" min="0" step="0.01" oninput="calculate()" />
+          <p class="text-gray-400 text-xs mt-1">What you charge</p>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">Target Margin (%)</label>
+          <input type="number" id="target" value="50" min="0" max="100" step="1" oninput="calculate()" />
+          <p class="text-gray-400 text-xs mt-1">Your minimum acceptable</p>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div id="result" class="result-neutral rounded-lg p-4 text-sm font-medium transition-all duration-200">
+        Enter your numbers above to see your margin check.
+      </div>
+
+      <!-- Breakdown -->
+      <div id="breakdown" class="mt-4 hidden">
+        <div class="green-pale-bg rounded-lg p-4 text-sm">
+          <div class="font-semibold green-text mb-2">Breakdown</div>
+          <div class="grid grid-cols-2 gap-y-1 text-gray-700">
+            <span>Gross profit:</span><span id="bk-profit" class="font-mono text-right font-semibold">—</span>
+            <span>Actual margin:</span><span id="bk-margin" class="font-mono text-right font-semibold">—</span>
+            <span>Target margin:</span><span id="bk-target" class="font-mono text-right">—</span>
+            <span>Margin gap:</span><span id="bk-gap" class="font-mono text-right">—</span>
+          </div>
+        </div>
+        <p class="text-gray-400 text-xs mt-2">
+          <strong>Tip:</strong> Gross margin = (Selling Price − Cost) ÷ Selling Price. Different from markup, which is profit ÷ cost.
+        </p>
+      </div>
+    </div>
+
+    <!-- Excel formula breakdown -->
+    <div class="bg-white rounded-2xl border border-gray-200 p-6 mb-10 shadow-sm">
+      <h2 class="font-bold text-gray-900 text-xl mb-4">How It Works in Excel</h2>
+      <div class="space-y-3 text-sm">
+        <div class="flex gap-3 items-start">
+          <span class="green-bg text-white font-bold rounded px-2 py-0.5 text-xs shrink-0 mt-0.5">1</span>
+          <p class="text-gray-700"><code class="text-xs bg-gray-100 px-1 rounded">(B2-A2)/B2</code> — calculates your gross margin as a decimal. B2 is selling price, A2 is cost.</p>
+        </div>
+        <div class="flex gap-3 items-start">
+          <span class="green-bg text-white font-bold rounded px-2 py-0.5 text-xs shrink-0 mt-0.5">2</span>
+          <p class="text-gray-700"><code class="text-xs bg-gray-100 px-1 rounded">< C2</code> — checks if that margin falls below your target (stored as a decimal in C2, e.g. 0.3 for 30%).</p>
+        </div>
+        <div class="flex gap-3 items-start">
+          <span class="green-bg text-white font-bold rounded px-2 py-0.5 text-xs shrink-0 mt-0.5">3</span>
+          <p class="text-gray-700"><code class="text-xs bg-gray-100 px-1 rounded">TEXT(..., "0.0%")</code> — formats the decimal as a readable percentage (e.g. 0.575 → 57.5%).</p>
+        </div>
+        <div class="flex gap-3 items-start">
+          <span class="green-bg text-white font-bold rounded px-2 py-0.5 text-xs shrink-0 mt-0.5">4</span>
+          <p class="text-gray-700">The IF combines everything: if margin is too low → show ❌ + percentage + "reprice". If it's fine → show ✅ + percentage + "margin".</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-gray-400 text-sm border-t pt-6">
+      <p class="font-semibold green-text mb-1">📊 Sheets Wizard</p>
+      <p>Daily Excel tips for small business owners & solopreneurs</p>
+      <p class="mt-1">Follow on TikTok → <span class="green-text font-medium">@realsheetswizard</span></p>
+    </div>
+
+  </div>
+
+  <script>
+    function calculate() {
+      const cost = parseFloat(document.getElementById('cost').value);
+      const price = parseFloat(document.getElementById('price').value);
+      const targetPct = parseFloat(document.getElementById('target').value);
+
+      const resultEl = document.getElementById('result');
+      const breakdownEl = document.getElementById('breakdown');
+
+      // Validation
+      if (isNaN(cost) || isNaN(price) || isNaN(targetPct)) {
+        resultEl.className = 'result-neutral rounded-lg p-4 text-sm font-medium';
+        resultEl.textContent = 'Please enter valid numbers in all three fields.';
+        breakdownEl.classList.add('hidden');
+        return;
+      }
+      if (price <= 0) {
+        resultEl.className = 'result-neutral rounded-lg p-4 text-sm font-medium';
+        resultEl.textContent = 'Selling price must be greater than zero.';
+        breakdownEl.classList.add('hidden');
+        return;
+      }
+      if (cost < 0) {
+        resultEl.className = 'result-neutral rounded-lg p-4 text-sm font-medium';
+        resultEl.textContent = 'Cost price cannot be negative.';
+        breakdownEl.classList.add('hidden');
+        return;
+      }
+
+      const target = targetPct / 100;
+      const margin = (price - cost) / price;
+      const profit = price - cost;
+      const gap = margin - target;
+
+      const marginPct = (margin * 100).toFixed(1);
+      const targetPctFmt = targetPct.toFixed(1);
+
+      // Excel-style result
+      let excelResult;
+      if (margin < target) {
+        resultEl.className = 'result-fail rounded-lg p-4 text-sm font-medium transition-all duration-200';
+        excelResult = `❌ ${marginPct}% — reprice`;
+      } else {
+        resultEl.className = 'result-pass rounded-lg p-4 text-sm font-medium transition-all duration-200';
+        excelResult = `✅ ${marginPct}% margin`;
+      }
+
+      resultEl.innerHTML = `<span class="font-mono text-base">${excelResult}</span>
+        <span class="block text-xs opacity-75 mt-1">What Excel would display in your cell</span>`;
+
+      // Breakdown
+      document.getElementById('bk-profit').textContent = `£${profit.toFixed(2)}`;
+      document.getElementById('bk-margin').textContent = `${marginPct}%`;
+      document.getElementById('bk-target').textContent = `${targetPctFmt}%`;
+      const gapText = gap >= 0
+        ? `+${(gap * 100).toFixed(1)}% above target`
+        : `${(gap * 100).toFixed(1)}% below target`;
+      document.getElementById('bk-gap').textContent = gapText;
+      document.getElementById('bk-gap').style.color = gap >= 0 ? '#065f46' : '#991b1b';
+
+      breakdownEl.classList.remove('hidden');
+    }
+
+    // Run on load
+    calculate();
+  </script>
+</body>
+</html>

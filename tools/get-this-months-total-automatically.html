@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get This Month's Total Automatically | Sheets Wizard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .excel-green { background-color: #217346; }
+        .excel-green-text { color: #217346; }
+        .excel-green-border { border-color: #217346; }
+        .formula-box {
+            background: #1a1a2e;
+            color: #00ff88;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        input[type="text"], input[type="number"], select {
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus, input[type="number"]:focus, select:focus {
+            border-color: #217346;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(33, 115, 70, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+    <!-- Header Bar -->
+    <header class="excel-green text-white py-4 px-6 shadow-lg">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center font-bold text-lg">SW</div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">Sheets Wizard</h1>
+                    <p class="text-white/70 text-xs">Excel Formula Tips</p>
+                </div>
+            </div>
+            <span class="text-white/50 text-sm hidden sm:block">10 March 2026</span>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="excel-green text-white pb-12 pt-8 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="inline-block bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full mb-4 uppercase tracking-wide">Sales & Revenue</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold mb-6 leading-tight">Get This Month's Total Automatically</h2>
+            <div class="formula-box rounded-xl p-5 text-lg sm:text-xl max-w-2xl mx-auto">
+                =SUMPRODUCT((MONTH(A2:A100)=MONTH(TODAY()))*(B2:B100))
+            </div>
+            <p class="mt-6 text-white/80 max-w-xl mx-auto text-base">Stop filtering by date every time you want this month's total. Put your dates in column A, your amounts in column B, and this formula sums only the current month — automatically.</p>
+        </div>
+    </section>
+
+    <!-- Use Case Panels -->
+    <section class="max-w-4xl mx-auto px-6 -mt-6">
+        <div class="grid md:grid-cols-2 gap-6">
+
+            <!-- Solopreneur Use Case -->
+            <div class="bg-white rounded-xl shadow-md p-6 border-t-4 excel-green-border">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-2xl">&#x1F680;</span>
+                    <h3 class="font-bold text-lg excel-green-text">For Solopreneurs & Creators</h3>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    You're logging every sale from your Stan Store, Gumroad, or Etsy shop into a spreadsheet. Each row has a date and an amount. Instead of filtering to this month and manually summing, this formula gives you a live running total that resets automatically when the month changes. Drop it at the top of your dashboard and always know where you stand.
+                </p>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 text-xs text-gray-500">
+                    <strong>Example:</strong> 47 sales logged this month → formula returns £1,245.00
+                </div>
+            </div>
+
+            <!-- Office Use Case -->
+            <div class="bg-white rounded-xl shadow-md p-6 border-t-4 excel-green-border">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-2xl">&#x1F3E2;</span>
+                    <h3 class="font-bold text-lg excel-green-text">For Office & Small Business</h3>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    Your team logs invoices, expenses, or orders with a date column. Your manager asks "what's the total this month?" every week. Instead of filtering, sorting, and re-summing each time, this formula sits in a summary cell and always shows the current month's total — no maintenance, no manual updates, no room for error.
+                </p>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 text-xs text-gray-500">
+                    <strong>Example:</strong> 132 invoices this month → formula returns £28,450.00
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Interactive Calculator -->
+    <section class="max-w-4xl mx-auto px-6 mt-12 mb-16">
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="excel-green text-white px-6 py-4">
+                <h3 class="font-bold text-lg">Try It Yourself</h3>
+                <p class="text-white/70 text-sm">Edit the dates and amounts below — the formula calculates live. Only rows matching the current month are summed.</p>
+            </div>
+
+            <div class="p-6">
+                <div class="mb-4 bg-gray-50 rounded-lg p-3 text-sm text-gray-500">
+                    <strong>Current month:</strong> <span id="currentMonth" class="excel-green-text font-semibold"></span> — only rows with this month will be included in the total.
+                </div>
+
+                <!-- Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm" id="calcTable">
+                        <thead>
+                            <tr class="border-b-2 excel-green-border">
+                                <th class="text-left py-2 px-3 text-gray-500 font-medium w-12">#</th>
+                                <th class="text-left py-2 px-3 excel-green-text font-semibold">Column A — Date</th>
+                                <th class="text-left py-2 px-3 excel-green-text font-semibold">Column B — Amount (£)</th>
+                                <th class="text-center py-2 px-3 text-gray-400 font-medium w-24">Included?</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Result -->
+                <div class="mt-6 bg-gray-50 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div class="flex-1">
+                        <p class="text-xs text-gray-400 uppercase tracking-wide font-semibold mb-1">Formula Result</p>
+                        <p class="text-sm text-gray-500 font-mono">=SUMPRODUCT((MONTH(A2:A100)=MONTH(TODAY()))*(B2:B100))</p>
+                    </div>
+                    <div class="flex-shrink-0 text-right">
+                        <p class="text-xs text-gray-400 uppercase tracking-wide font-semibold mb-1">This Month's Total</p>
+                        <p class="text-2xl font-extrabold excel-green-text" id="result">£0.00</p>
+                        <p class="text-sm text-gray-400" id="resultCount"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8 px-6 text-center text-sm">
+        <p class="font-semibold text-white mb-1">Sheets Wizard</p>
+        <p>Excel tips for small businesses and solopreneurs</p>
+        <p class="mt-3 text-gray-500">Follow @SheetsWizard on TikTok for daily formula tips</p>
+    </footer>
+
+    <script>
+        const now = new Date();
+        const currentMonthNum = now.getMonth();
+        const currentYear = now.getFullYear();
+        const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+        document.getElementById("currentMonth").textContent = monthNames[currentMonthNum] + " " + currentYear;
+
+        // Sample data: mix of current month and previous months
+        const prevMonth = currentMonthNum === 0 ? 11 : currentMonthNum - 1;
+        const prevMonthYear = currentMonthNum === 0 ? currentYear - 1 : currentYear;
+        const nextMonth = currentMonthNum === 11 ? 0 : currentMonthNum + 1;
+        const nextMonthYear = currentMonthNum === 11 ? currentYear + 1 : currentYear;
+
+        function fmtDate(y, m, d) {
+            return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        }
+
+        const defaultData = [
+            { date: fmtDate(currentYear, currentMonthNum, 2), amount: 29.99 },
+            { date: fmtDate(currentYear, currentMonthNum, 5), amount: 49.00 },
+            { date: fmtDate(prevMonthYear, prevMonth, 14), amount: 120.00 },
+            { date: fmtDate(currentYear, currentMonthNum, 8), amount: 15.50 },
+            { date: fmtDate(prevMonthYear, prevMonth, 22), amount: 75.00 },
+            { date: fmtDate(currentYear, currentMonthNum, 10), amount: 89.99 },
+            { date: fmtDate(prevMonthYear, prevMonth, 3), amount: 42.00 },
+            { date: fmtDate(currentYear, currentMonthNum, 1), amount: 199.00 },
+        ];
+
+        const tableBody = document.getElementById("tableBody");
+        const resultEl = document.getElementById("result");
+        const resultCountEl = document.getElementById("resultCount");
+
+        function createRow(item, index) {
+            const tr = document.createElement("tr");
+            tr.className = "border-b border-gray-100";
+            tr.innerHTML = `
+                <td class="py-2 px-3 text-gray-400 font-mono text-xs">${index + 2}</td>
+                <td class="py-2 px-3">
+                    <input type="date" value="${item.date}"
+                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm"
+                        data-row="${index}" data-col="date" oninput="calculate()">
+                </td>
+                <td class="py-2 px-3">
+                    <input type="number" value="${item.amount}" step="0.01"
+                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono"
+                        data-row="${index}" data-col="amount" oninput="calculate()">
+                </td>
+                <td class="py-2 px-3 text-center" id="indicator-${index}">—</td>
+            `;
+            return tr;
+        }
+
+        function init() {
+            defaultData.forEach((item, i) => {
+                tableBody.appendChild(createRow(item, i));
+            });
+            calculate();
+        }
+
+        function calculate() {
+            const dates = document.querySelectorAll('input[data-col="date"]');
+            const amounts = document.querySelectorAll('input[data-col="amount"]');
+
+            let total = 0;
+            let matchCount = 0;
+
+            dates.forEach((input, i) => {
+                const dateVal = new Date(input.value);
+                const amount = parseFloat(amounts[i].value);
+                const indicator = document.getElementById(`indicator-${i}`);
+                const row = input.closest("tr");
+
+                if (!isNaN(dateVal.getTime()) && !isNaN(amount)) {
+                    if (dateVal.getMonth() === currentMonthNum && dateVal.getFullYear() === currentYear) {
+                        total += amount;
+                        matchCount++;
+                        indicator.innerHTML = '<span class="inline-block bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded-full">Yes</span>';
+                        row.classList.remove("opacity-50");
+                    } else {
+                        indicator.innerHTML = '<span class="inline-block bg-gray-100 text-gray-400 text-xs font-semibold px-2 py-0.5 rounded-full">No</span>';
+                        row.classList.add("opacity-50");
+                    }
+                } else {
+                    indicator.innerHTML = '<span class="text-gray-300">—</span>';
+                    row.classList.remove("opacity-50");
+                }
+            });
+
+            if (matchCount > 0) {
+                resultEl.textContent = "£" + total.toFixed(2);
+                resultCountEl.textContent = `${matchCount} row${matchCount !== 1 ? 's' : ''} matched this month`;
+            } else {
+                resultEl.textContent = "£0.00";
+                resultCountEl.textContent = "No rows match the current month";
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

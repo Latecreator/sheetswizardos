@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Your Revenue With Compound Growth | Sheets Wizard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .excel-green { background-color: #217346; }
+        .excel-green-text { color: #217346; }
+        .excel-green-border { border-color: #217346; }
+        .formula-box {
+            background: #1a1a2e;
+            color: #00ff88;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        input[type="text"], input[type="number"], select {
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus, input[type="number"]:focus, select:focus {
+            border-color: #217346;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(33, 115, 70, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+    <!-- Header Bar -->
+    <header class="excel-green text-white py-4 px-6 shadow-lg">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center font-bold text-lg">SW</div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">Sheets Wizard</h1>
+                    <p class="text-white/70 text-xs">Excel Formula Tips</p>
+                </div>
+            </div>
+            <span class="text-white/50 text-sm hidden sm:block">11 March 2026</span>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="excel-green text-white pb-12 pt-8 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="inline-block bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full mb-4 uppercase tracking-wide">Growth & Forecasting</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold mb-6 leading-tight">Project Your Revenue With Compound Growth</h2>
+            <div class="formula-box rounded-xl p-5 text-lg sm:text-xl max-w-2xl mx-auto">
+                =A2*(1+B2/100)^C2
+            </div>
+            <p class="mt-6 text-white/80 max-w-xl mx-auto text-base">Put your current revenue in A2, your monthly growth rate (%) in B2, and the number of months in C2. The formula compounds your growth and shows where you'll be.</p>
+        </div>
+    </section>
+
+    <!-- Use Case Panels -->
+    <section class="max-w-4xl mx-auto px-6 -mt-6">
+        <div class="grid md:grid-cols-2 gap-6">
+
+            <!-- Solopreneur Use Case -->
+            <div class="bg-white rounded-xl shadow-md p-6 border-t-4 excel-green-border">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-2xl">&#x1F680;</span>
+                    <h3 class="font-bold text-lg excel-green-text">For Solopreneurs & Creators</h3>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    You're earning from digital products, courses, or freelance work and growing month-on-month. Instead of guessing when you can quit your day job, plug in your current monthly revenue and growth rate. This formula shows you exactly when you'll hit your income target — so you can plan your exit with confidence, not hope.
+                </p>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 text-xs text-gray-500">
+                    <strong>Example:</strong> Starting at £500/month with 15% growth → £2,028/month after 10 months
+                </div>
+            </div>
+
+            <!-- Office Use Case -->
+            <div class="bg-white rounded-xl shadow-md p-6 border-t-4 excel-green-border">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-2xl">&#x1F3E2;</span>
+                    <h3 class="font-bold text-lg excel-green-text">For Office & Small Business</h3>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    Your manager wants a revenue forecast for the next 12 months. Instead of building a complex model, use this formula with last quarter's average monthly revenue and your historical growth rate. It gives you a defensible projection in seconds — perfect for board decks, budgets, and capacity planning.
+                </p>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 text-xs text-gray-500">
+                    <strong>Example:</strong> Starting at £10,000/month with 5% growth → £17,959/month after 12 months
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Interactive Calculator -->
+    <section class="max-w-4xl mx-auto px-6 mt-12 mb-16">
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="excel-green text-white px-6 py-4">
+                <h3 class="font-bold text-lg">Try It Yourself</h3>
+                <p class="text-white/70 text-sm">Change the inputs below and watch the compound growth projection update live.</p>
+            </div>
+
+            <div class="p-6">
+                <!-- Inputs -->
+                <div class="grid sm:grid-cols-3 gap-4 mb-6">
+                    <div>
+                        <label class="block text-xs text-gray-500 uppercase tracking-wide font-semibold mb-1">Current Monthly Revenue (£)</label>
+                        <input type="number" id="revenue" value="500" min="0" step="50"
+                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono" oninput="calculate()">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 uppercase tracking-wide font-semibold mb-1">Monthly Growth Rate (%)</label>
+                        <input type="number" id="growthRate" value="10" min="0" max="100" step="0.5"
+                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono" oninput="calculate()">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 uppercase tracking-wide font-semibold mb-1">Number of Months</label>
+                        <input type="number" id="months" value="12" min="1" max="60" step="1"
+                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono" oninput="calculate()">
+                    </div>
+                </div>
+
+                <!-- Projection Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm" id="projectionTable">
+                        <thead>
+                            <tr class="border-b-2 excel-green-border">
+                                <th class="text-left py-2 px-3 excel-green-text font-semibold">Month</th>
+                                <th class="text-right py-2 px-3 excel-green-text font-semibold">Projected Revenue</th>
+                                <th class="text-right py-2 px-3 text-gray-400 font-medium">Growth From Start</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Result -->
+                <div class="mt-6 bg-gray-50 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div class="flex-1">
+                        <p class="text-xs text-gray-400 uppercase tracking-wide font-semibold mb-1">Formula</p>
+                        <p class="text-sm text-gray-500 font-mono">=A2*(1+B2/100)^C2</p>
+                    </div>
+                    <div class="flex-shrink-0 text-right">
+                        <p class="text-xs text-gray-400 uppercase tracking-wide font-semibold mb-1">Final Projected Revenue</p>
+                        <p class="text-2xl font-extrabold excel-green-text" id="result">£0.00</p>
+                        <p class="text-sm text-gray-400" id="resultGrowth"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8 px-6 text-center text-sm">
+        <p class="font-semibold text-white mb-1">Sheets Wizard</p>
+        <p>Excel tips for small businesses and solopreneurs</p>
+        <p class="mt-3 text-gray-500">Follow @SheetsWizard on TikTok for daily formula tips</p>
+    </footer>
+
+    <script>
+        function calculate() {
+            const revenue = parseFloat(document.getElementById('revenue').value);
+            const growthRate = parseFloat(document.getElementById('growthRate').value);
+            const months = parseInt(document.getElementById('months').value);
+            const tableBody = document.getElementById('tableBody');
+            const resultEl = document.getElementById('result');
+            const resultGrowthEl = document.getElementById('resultGrowth');
+
+            tableBody.innerHTML = '';
+
+            if (isNaN(revenue) || isNaN(growthRate) || isNaN(months) || revenue < 0 || months < 1) {
+                resultEl.textContent = '—';
+                resultGrowthEl.textContent = 'Enter valid values above';
+                return;
+            }
+
+            if (growthRate < 0) {
+                resultEl.textContent = '—';
+                resultGrowthEl.textContent = 'Growth rate must be 0 or above';
+                return;
+            }
+
+            const maxRows = Math.min(months, 24);
+            const step = months > 24 ? Math.ceil(months / 24) : 1;
+
+            for (let i = 1; i <= months; i++) {
+                const projected = revenue * Math.pow(1 + growthRate / 100, i);
+                const growthPct = ((projected - revenue) / revenue) * 100;
+
+                if (i % step === 0 || i === months || i <= 3) {
+                    const tr = document.createElement('tr');
+                    tr.className = 'border-b border-gray-100';
+                    const isLast = i === months;
+                    tr.innerHTML = `
+                        <td class="py-2 px-3 ${isLast ? 'font-bold excel-green-text' : 'text-gray-600'}">Month ${i}</td>
+                        <td class="py-2 px-3 text-right font-mono ${isLast ? 'font-bold excel-green-text' : 'text-gray-700'}">£${projected.toLocaleString('en-GB', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                        <td class="py-2 px-3 text-right ${isLast ? 'font-semibold text-gray-600' : 'text-gray-400'}">+${growthPct.toFixed(1)}%</td>
+                    `;
+                    tableBody.appendChild(tr);
+                }
+            }
+
+            const finalValue = revenue * Math.pow(1 + growthRate / 100, months);
+            const totalGrowth = ((finalValue - revenue) / revenue) * 100;
+            resultEl.textContent = '£' + finalValue.toLocaleString('en-GB', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            resultGrowthEl.textContent = `+${totalGrowth.toFixed(1)}% growth over ${months} month${months !== 1 ? 's' : ''}`;
+        }
+
+        calculate();
+    </script>
+</body>
+</html>

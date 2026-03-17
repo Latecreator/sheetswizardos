@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Break-Even Calculator | Sheets Wizard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        excel: {
+                            DEFAULT: '#217346',
+                            dark: '#185C37',
+                            light: '#2B9158',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <!-- Header Bar -->
+    <header class="bg-excel-dark text-white">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                </svg>
+                <span class="font-bold text-lg">Sheets Wizard</span>
+            </div>
+            <span class="text-sm text-green-200">Excel Formula Tips</span>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-excel text-white py-12 md:py-16">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <p class="text-green-200 text-sm font-medium uppercase tracking-wide mb-3">Budgeting & Break-Even</p>
+            <h1 class="text-3xl md:text-4xl font-extrabold mb-4 leading-tight">The Reality Check:<br>How Many Sales Until You Actually Make Money</h1>
+            <div class="inline-block bg-excel-dark/60 rounded-xl px-6 py-4 mt-4">
+                <code class="text-xl md:text-2xl font-mono font-bold text-green-100">=A2/(B2-C2)</code>
+            </div>
+            <p class="mt-6 text-green-100 max-w-2xl mx-auto">Your fixed costs, divided by your profit per sale. One number that tells you exactly when you stop losing money.</p>
+        </div>
+    </section>
+
+    <!-- Use Case Panels -->
+    <section class="max-w-4xl mx-auto px-4 py-12">
+        <div class="grid md:grid-cols-2 gap-6">
+
+            <!-- Solopreneur Panel -->
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-lg font-bold text-gray-900">For Solopreneurs & Creators</h2>
+                </div>
+                <p class="text-gray-600 mb-4">You're about to launch a £19 Excel template. You've spent £85 on design tools, hosting, and a Stan Store subscription. Payment processing takes £1.20 per sale.</p>
+                <div class="bg-gray-50 rounded-lg p-4 space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Fixed Costs (A2)</span>
+                        <span class="font-semibold">£85</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Price Per Unit (B2)</span>
+                        <span class="font-semibold">£19.00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Variable Cost (C2)</span>
+                        <span class="font-semibold">£1.20</span>
+                    </div>
+                    <hr class="border-gray-200">
+                    <div class="flex justify-between text-excel font-bold">
+                        <span>Break-Even Units</span>
+                        <span>5 sales</span>
+                    </div>
+                </div>
+                <p class="text-gray-500 text-sm mt-4">Five sales. That's it. Suddenly launching that template doesn't feel like a gamble — it feels like a plan.</p>
+            </div>
+
+            <!-- Office / Small Business Panel -->
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-lg font-bold text-gray-900">For Office & Small Business</h2>
+                </div>
+                <p class="text-gray-600 mb-4">Your team wants to run a training workshop. The room hire, materials, and catering cost £2,400. You're charging £120 per head, with £15 in per-person costs.</p>
+                <div class="bg-gray-50 rounded-lg p-4 space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Fixed Costs (A2)</span>
+                        <span class="font-semibold">£2,400</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Price Per Unit (B2)</span>
+                        <span class="font-semibold">£120.00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">Variable Cost (C2)</span>
+                        <span class="font-semibold">£15.00</span>
+                    </div>
+                    <hr class="border-gray-200">
+                    <div class="flex justify-between text-excel font-bold">
+                        <span>Break-Even Units</span>
+                        <span>23 attendees</span>
+                    </div>
+                </div>
+                <p class="text-gray-500 text-sm mt-4">Now you know: fewer than 23 sign-ups and you're subsidising the event. More than 23 and every extra ticket is pure profit.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Interactive Calculator -->
+    <section class="max-w-4xl mx-auto px-4 pb-16">
+        <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
+            <div class="bg-excel-dark text-white px-6 py-4">
+                <h2 class="text-xl font-bold">Try It Yourself</h2>
+                <p class="text-green-200 text-sm mt-1">Change the numbers below and watch the result update instantly.</p>
+            </div>
+
+            <div class="p-6">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b-2 border-excel/20">
+                                <th class="text-left py-3 px-4 text-gray-500 font-medium w-8"></th>
+                                <th class="text-left py-3 px-4 text-excel font-bold">A — Fixed Costs</th>
+                                <th class="text-left py-3 px-4 text-excel font-bold">B — Price Per Unit</th>
+                                <th class="text-left py-3 px-4 text-excel font-bold">C — Variable Cost</th>
+                                <th class="text-left py-3 px-4 text-excel font-bold">D — Break-Even Units</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-3 px-4 text-gray-400 font-mono text-xs">1</td>
+                                <td class="py-3 px-4 text-gray-400 italic text-xs">Fixed Costs</td>
+                                <td class="py-3 px-4 text-gray-400 italic text-xs">Price Per Unit</td>
+                                <td class="py-3 px-4 text-gray-400 italic text-xs">Variable Cost</td>
+                                <td class="py-3 px-4 text-gray-400 italic text-xs">Result</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-4 text-gray-400 font-mono text-xs">2</td>
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-1">
+                                        <span class="text-gray-400">£</span>
+                                        <input type="number" id="fixedCosts" value="500" min="0" step="10"
+                                            class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-excel/30 focus:border-excel transition"
+                                            oninput="calculate()">
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-1">
+                                        <span class="text-gray-400">£</span>
+                                        <input type="number" id="pricePerUnit" value="29" min="0" step="1"
+                                            class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-excel/30 focus:border-excel transition"
+                                            oninput="calculate()">
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-1">
+                                        <span class="text-gray-400">£</span>
+                                        <input type="number" id="variableCost" value="2" min="0" step="0.5"
+                                            class="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-excel/30 focus:border-excel transition"
+                                            oninput="calculate()">
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <div id="result" class="text-2xl font-bold text-excel"></div>
+                                    <div id="resultLabel" class="text-xs text-gray-400 mt-1"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Formula breakdown -->
+                <div class="mt-6 bg-gray-50 rounded-xl p-5">
+                    <p class="text-sm font-semibold text-gray-700 mb-2">How it works:</p>
+                    <div class="flex flex-wrap items-center gap-2 text-sm font-mono">
+                        <span class="bg-excel/10 text-excel px-3 py-1 rounded-lg font-bold">=A2/(B2-C2)</span>
+                        <span class="text-gray-400">=</span>
+                        <span id="formulaDisplay" class="text-gray-600"></span>
+                    </div>
+                    <div id="warningMessage" class="hidden mt-3 text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-4 py-2"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <p class="font-semibold text-white mb-1">Sheets Wizard</p>
+            <p class="text-sm">Excel tips for small businesses and solopreneurs.</p>
+            <p class="text-xs mt-4 text-gray-500">Follow @SheetsWizard on TikTok for daily formula tips.</p>
+        </div>
+    </footer>
+
+    <script>
+        function calculate() {
+            const fixedCosts = parseFloat(document.getElementById('fixedCosts').value) || 0;
+            const pricePerUnit = parseFloat(document.getElementById('pricePerUnit').value) || 0;
+            const variableCost = parseFloat(document.getElementById('variableCost').value) || 0;
+
+            const resultEl = document.getElementById('result');
+            const labelEl = document.getElementById('resultLabel');
+            const formulaEl = document.getElementById('formulaDisplay');
+            const warningEl = document.getElementById('warningMessage');
+
+            const margin = pricePerUnit - variableCost;
+
+            formulaEl.textContent = `${fixedCosts} / (${pricePerUnit} - ${variableCost}) = ${fixedCosts} / ${margin.toFixed(2)}`;
+
+            // Edge cases
+            if (margin <= 0) {
+                resultEl.textContent = '—';
+                resultEl.className = 'text-2xl font-bold text-red-600';
+                labelEl.textContent = '';
+                warningEl.classList.remove('hidden');
+
+                if (margin === 0) {
+                    warningEl.textContent = "Your price equals your variable cost — you'd never break even. Raise your price or cut variable costs.";
+                } else {
+                    warningEl.textContent = "Your variable cost is higher than your price — you lose money on every sale. This needs fixing before anything else.";
+                }
+                return;
+            }
+
+            if (fixedCosts === 0) {
+                resultEl.textContent = '0';
+                resultEl.className = 'text-2xl font-bold text-excel';
+                labelEl.textContent = 'units to break even';
+                warningEl.classList.remove('hidden');
+                warningEl.textContent = "No fixed costs? Every sale is already profitable. Nice position to be in.";
+                return;
+            }
+
+            warningEl.classList.add('hidden');
+
+            const breakEven = fixedCosts / margin;
+            const rounded = Math.ceil(breakEven);
+
+            resultEl.textContent = rounded.toLocaleString();
+            resultEl.className = 'text-2xl font-bold text-excel';
+            labelEl.textContent = `unit${rounded !== 1 ? 's' : ''} to break even`;
+        }
+
+        // Run on page load
+        calculate();
+    </script>
+
+</body>
+</html>

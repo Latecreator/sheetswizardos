@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Top Performer Instantly | Sheets Wizard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .excel-green { background-color: #217346; }
+        .excel-green-text { color: #217346; }
+        .excel-green-border { border-color: #217346; }
+        .formula-box {
+            background: #1a1a2e;
+            color: #00ff88;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        input[type="text"], input[type="number"] {
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus, input[type="number"]:focus {
+            border-color: #217346;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(33, 115, 70, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+    <!-- Header Bar -->
+    <header class="excel-green text-white py-4 px-6 shadow-lg">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center font-bold text-lg">SW</div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">Sheets Wizard</h1>
+                    <p class="text-white/70 text-xs">Excel Formula Tips</p>
+                </div>
+            </div>
+            <span class="text-white/50 text-sm hidden sm:block">9 March 2026</span>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="excel-green text-white pb-12 pt-8 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="inline-block bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full mb-4 uppercase tracking-wide">Data Analysis</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold mb-6 leading-tight">Find Your Top Performer Instantly</h2>
+            <div class="formula-box rounded-xl p-5 text-lg sm:text-xl max-w-2xl mx-auto">
+                =INDEX(A2:A10, MATCH(MAX(B2:B10), B2:B10, 0))
+            </div>
+            <p class="mt-6 text-white/80 max-w-xl mx-auto text-base">Stop scrolling through rows to find your top performer. This formula instantly returns the name of whoever — or whatever — has the highest number in your data.</p>
+        </div>
+    </section>
+
+    <!-- Use Case Panels -->
+    <section class="max-w-4xl mx-auto px-6 -mt-6">
+        <div class="grid md:grid-cols-2 gap-6">
+
+            <!-- Solopreneur Use Case -->
+            <div class="bg-white rounded-xl shadow-md p-6 border-t-4 excel-green-border">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-2xl">&#x1F680;</span>
+                    <h3 class="font-bold text-lg excel-green-text">For Solopreneurs & Creators</h3>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    You've got a spreadsheet tracking your digital products — templates, ebooks, courses. Each one has a sales column. Instead of scanning every row to see which product is carrying your business, this formula pulls the top seller's name instantly. Use it in your monthly review dashboard to spot your winner without thinking.
+                </p>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 text-xs text-gray-500">
+                    <strong>Example:</strong> =INDEX(Products, MATCH(MAX(Sales), Sales, 0)) → "Budget Planner Template"
+                </div>
+            </div>
+
+            <!-- Office Use Case -->
+            <div class="bg-white rounded-xl shadow-md p-6 border-t-4 excel-green-border">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-2xl">&#x1F3E2;</span>
+                    <h3 class="font-bold text-lg excel-green-text">For Office & Small Business</h3>
+                </div>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    You're running a sales team or managing regional performance. You've got names in one column and figures in another. Instead of sorting and re-sorting every time someone asks "who's top this month?", this formula gives you the answer live. Drop it into your team dashboard and it updates as the numbers come in.
+                </p>
+                <div class="mt-4 bg-gray-50 rounded-lg p-3 text-xs text-gray-500">
+                    <strong>Example:</strong> =INDEX(Reps, MATCH(MAX(Revenue), Revenue, 0)) → "Sarah Chen"
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Interactive Calculator -->
+    <section class="max-w-4xl mx-auto px-6 mt-12 mb-16">
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="excel-green text-white px-6 py-4">
+                <h3 class="font-bold text-lg">Try It Yourself</h3>
+                <p class="text-white/70 text-sm">Edit the names and values below — the formula calculates live</p>
+            </div>
+
+            <div class="p-6">
+                <!-- Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm" id="calcTable">
+                        <thead>
+                            <tr class="border-b-2 excel-green-border">
+                                <th class="text-left py-2 px-3 text-gray-500 font-medium w-12">#</th>
+                                <th class="text-left py-2 px-3 excel-green-text font-semibold">Column A — Name</th>
+                                <th class="text-left py-2 px-3 excel-green-text font-semibold">Column B — Value</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Result -->
+                <div class="mt-6 bg-gray-50 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div class="flex-1">
+                        <p class="text-xs text-gray-400 uppercase tracking-wide font-semibold mb-1">Formula Result</p>
+                        <p class="text-sm text-gray-500 font-mono">=INDEX(A2:A10, MATCH(MAX(B2:B10), B2:B10, 0))</p>
+                    </div>
+                    <div class="flex-shrink-0 text-right">
+                        <p class="text-xs text-gray-400 uppercase tracking-wide font-semibold mb-1">Top Performer</p>
+                        <p class="text-2xl font-extrabold excel-green-text" id="result">—</p>
+                        <p class="text-sm text-gray-400" id="resultValue"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8 px-6 text-center text-sm">
+        <p class="font-semibold text-white mb-1">Sheets Wizard</p>
+        <p>Excel tips for small businesses and solopreneurs</p>
+        <p class="mt-3 text-gray-500">Follow @SheetsWizard on TikTok for daily formula tips</p>
+    </footer>
+
+    <script>
+        const defaultData = [
+            { name: "Budget Planner", value: 142 },
+            { name: "Invoice Template", value: 89 },
+            { name: "Habit Tracker", value: 217 },
+            { name: "Meal Prep Planner", value: 64 },
+            { name: "Social Media Calendar", value: 183 },
+            { name: "CRM Spreadsheet", value: 95 },
+        ];
+
+        const tableBody = document.getElementById("tableBody");
+        const resultEl = document.getElementById("result");
+        const resultValueEl = document.getElementById("resultValue");
+
+        function createRow(item, index) {
+            const tr = document.createElement("tr");
+            tr.className = "border-b border-gray-100";
+            tr.innerHTML = `
+                <td class="py-2 px-3 text-gray-400 font-mono text-xs">${index + 2}</td>
+                <td class="py-2 px-3">
+                    <input type="text" value="${item.name}"
+                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm"
+                        data-row="${index}" data-col="name" oninput="calculate()">
+                </td>
+                <td class="py-2 px-3">
+                    <input type="number" value="${item.value}"
+                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm font-mono"
+                        data-row="${index}" data-col="value" oninput="calculate()">
+                </td>
+            `;
+            return tr;
+        }
+
+        function init() {
+            defaultData.forEach((item, i) => {
+                tableBody.appendChild(createRow(item, i));
+            });
+            calculate();
+        }
+
+        function calculate() {
+            const names = document.querySelectorAll('input[data-col="name"]');
+            const values = document.querySelectorAll('input[data-col="value"]');
+
+            let maxVal = -Infinity;
+            let maxName = "—";
+            let hasValidData = false;
+
+            values.forEach((input, i) => {
+                const val = parseFloat(input.value);
+                const name = names[i].value.trim();
+                if (!isNaN(val) && name !== "") {
+                    hasValidData = true;
+                    if (val > maxVal) {
+                        maxVal = val;
+                        maxName = name;
+                    }
+                }
+            });
+
+            if (hasValidData && maxVal > -Infinity) {
+                resultEl.textContent = maxName;
+                resultValueEl.textContent = `Highest value: ${maxVal.toLocaleString()}`;
+            } else {
+                resultEl.textContent = "—";
+                resultValueEl.textContent = "Enter names and values above";
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Price From Margin: Never Underprice Again — Sheets Wizard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --green: #217346; --green-light: #2a9158; --green-pale: #e8f5ee; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f5f5f5; color: #1a1a1a; }
+    .brand-bar { background: var(--green); }
+    .formula-pill {
+      background: #1a1a1a;
+      color: #4ade80;
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      word-break: break-all;
+      letter-spacing: 0.01em;
+    }
+    .card { background: white; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .use-case-badge {
+      background: var(--green);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      padding: 2px 8px;
+    }
+    table { border-collapse: collapse; width: 100%; }
+    th { background: var(--green); color: white; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    th, td { padding: 10px 12px; text-align: left; }
+    tbody tr:nth-child(even) { background: #f8f8f8; }
+    tbody tr:nth-child(odd) { background: white; }
+    input[type="number"] {
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input[type="number"]:focus { border-color: var(--green); box-shadow: 0 0 0 2px rgba(33,115,70,0.15); }
+    input[type="text"] {
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input[type="text"]:focus { border-color: var(--green); box-shadow: 0 0 0 2px rgba(33,115,70,0.15); }
+    .result-ok {
+      color: #155a33;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .result-warn {
+      color: #b45309;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .result-empty {
+      color: #9ca3af;
+      font-style: italic;
+    }
+    .step-num {
+      background: var(--green);
+      color: white;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    footer { background: var(--green); color: white; }
+  </style>
+</head>
+<body>
+
+  <!-- Brand bar -->
+  <div class="brand-bar py-3 px-6 flex items-center gap-3">
+    <div class="w-8 h-8 bg-white rounded flex items-center justify-center">
+      <span class="text-sm font-black" style="color: var(--green);">SW</span>
+    </div>
+    <span class="text-white font-bold text-lg tracking-tight">Sheets Wizard</span>
+    <span class="text-green-200 text-sm ml-auto">@realsheetswizard</span>
+  </div>
+
+  <!-- Hero -->
+  <div style="background: var(--green);" class="px-6 py-10 text-white text-center">
+    <p class="text-green-200 text-xs font-semibold uppercase tracking-widest mb-2">Excel Formula Tips</p>
+    <h1 class="text-2xl md:text-3xl font-bold mb-4 leading-snug">Price From Margin:<br>Never Underprice Again</h1>
+    <p class="text-green-100 mb-6 max-w-xl mx-auto text-sm md:text-base">
+      Stop guessing your price. Enter your cost and target margin — this formula calculates the exact minimum you need to charge to hit that number.
+    </p>
+    <div class="formula-pill max-w-2xl mx-auto text-left">
+      =CEILING(A2/(1-B2), 0.01)
+    </div>
+    <p class="text-green-200 text-xs mt-3">A2 = cost &nbsp;|&nbsp; B2 = target margin as a decimal (e.g. 0.60 for 60%)</p>
+  </div>
+
+  <!-- Main content -->
+  <div class="max-w-3xl mx-auto px-4 py-10 space-y-6">
+
+    <!-- How it works -->
+    <div class="card p-6">
+      <h2 class="text-lg font-bold mb-4" style="color: var(--green);">How It Works</h2>
+      <div class="space-y-3">
+        <div class="flex gap-3 items-start">
+          <span class="step-num">1</span>
+          <p class="text-sm mt-1"><strong>1-B2</strong> — converts your margin percentage into the cost fraction. If you want 60% margin, the cost must represent 40% of the price, so this gives you 0.40.</p>
+        </div>
+        <div class="flex gap-3 items-start">
+          <span class="step-num">2</span>
+          <p class="text-sm mt-1"><strong>A2/(1-B2)</strong> — divides your cost by that fraction. This is the raw minimum price required to achieve exactly your target margin — not a penny over or under.</p>
+        </div>
+        <div class="flex gap-3 items-start">
+          <span class="step-num">3</span>
+          <p class="text-sm mt-1"><strong>CEILING(..., 0.01)</strong> — rounds up to the nearest penny. This ensures you never accidentally underprice by a fraction of a cent. Always round up, never down.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use case panels -->
+    <div class="grid md:grid-cols-2 gap-4">
+
+      <div class="card p-5">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="use-case-badge">Solopreneur</span>
+        </div>
+        <h3 class="font-bold text-base mb-2">Pricing a Digital Product</h3>
+        <p class="text-sm text-gray-600 mb-3">
+          You're launching an Excel template. Your time and tool costs work out to £12 per sale. You want a 70% margin minimum. This formula tells you the lowest price you can charge:
+        </p>
+        <div class="formula-pill text-xs">
+          =CEILING(12/(1-0.70), 0.01)
+        </div>
+        <p class="text-xs text-gray-500 mt-3">
+          Result: <em>£40.00 minimum price</em> — anything under that and you're missing your margin target.
+        </p>
+      </div>
+
+      <div class="card p-5">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="use-case-badge">Small Business</span>
+        </div>
+        <h3 class="font-bold text-base mb-2">Product or Service Pricing</h3>
+        <p class="text-sm text-gray-600 mb-3">
+          You're quoting a job or pricing a physical product with known costs. You want to protect a 45% gross margin across your product range. Set up a pricing calculator with one formula per row:
+        </p>
+        <div class="formula-pill text-xs">
+          =CEILING(C2/(1-D2), 0.01)
+        </div>
+        <p class="text-xs text-gray-500 mt-3">
+          Put your margin target in column D (e.g. 0.45) and costs in column C. Copy the formula down for every product line.
+        </p>
+      </div>
+    </div>
+
+    <!-- Interactive calculator -->
+    <div class="card p-6">
+      <h2 class="text-lg font-bold mb-1" style="color: var(--green);">Try It Live</h2>
+      <p class="text-sm text-gray-500 mb-5">Enter your cost and target margin — see the minimum price update instantly.</p>
+
+      <div class="overflow-x-auto rounded-lg border border-gray-200 mb-5">
+        <table id="pricingTable">
+          <thead>
+            <tr>
+              <th>Product / Service</th>
+              <th>Cost (A)</th>
+              <th>Target Margin % (B)</th>
+              <th>Min. Price to Charge</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+
+      <p class="text-xs text-gray-400 mt-2">Edit any value — the minimum price updates as you type.</p>
+    </div>
+
+    <!-- Pro tips -->
+    <div class="card p-6">
+      <h2 class="text-lg font-bold mb-4" style="color: var(--green);">Pro Tips</h2>
+      <ul class="space-y-3 text-sm text-gray-700">
+        <li class="flex gap-2"><span class="text-green-600 font-bold mt-0.5">→</span> <span><strong>Use a named range for your target margin:</strong> Put your margin in a single cell (e.g. <code class="bg-gray-100 px-1 rounded">F1</code>) and reference it as <code class="bg-gray-100 px-1 rounded">$F$1</code> — change the margin once and every product reprices automatically.</span></li>
+        <li class="flex gap-2"><span class="text-green-600 font-bold mt-0.5">→</span> <span><strong>Check actual margin against target:</strong> Add a column using <code class="bg-gray-100 px-1 rounded">=(selling_price-cost)/selling_price</code> to see your real margin on any price you've set.</span></li>
+        <li class="flex gap-2"><span class="text-green-600 font-bold mt-0.5">→</span> <span><strong>Highlight underpriced items:</strong> Use conditional formatting on your selling price column — <code class="bg-gray-100 px-1 rounded">=D2&lt;CEILING(A2/(1-B2),0.01)</code> — to flag any product priced below its minimum.</span></li>
+        <li class="flex gap-2"><span class="text-green-600 font-bold mt-0.5">→</span> <span><strong>Model different margin scenarios:</strong> Create a small table with margins from 40% to 80% in steps of 5% — run the formula across each to see how your price needs to shift as your cost targets change.</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-8 px-6 text-center mt-4">
+    <p class="text-green-200 text-sm font-semibold">@realsheetswizard</p>
+    <p class="text-green-300 text-xs mt-1">Excel tips for small business owners and solopreneurs</p>
+  </footer>
+
+  <script>
+    const defaults = [
+      ["Excel Template",        12,  70],
+      ["Ebook / PDF Guide",      5,  80],
+      ["Coaching Session (1hr)", 25,  60],
+      ["Physical Product",       8,  55],
+      ["SaaS / Subscription",    4,  75],
+      ["Freelance Day Rate",    150,  50],
+    ];
+
+    const tbody = document.getElementById('tableBody');
+
+    defaults.forEach((row, i) => {
+      const tr = document.createElement('tr');
+      tr.id = 'row-' + i;
+      tr.innerHTML = `
+        <td><input type="text" value="${row[0]}" oninput="recalcRow(${i})" class="item-name" /></td>
+        <td>
+          <div class="flex items-center gap-1">
+            <span class="text-gray-400 text-sm">£</span>
+            <input type="number" value="${row[1]}" min="0" step="0.01" oninput="recalcRow(${i})" class="cost-val" />
+          </div>
+        </td>
+        <td>
+          <div class="flex items-center gap-1">
+            <input type="number" value="${row[2]}" min="1" max="99" step="1" oninput="recalcRow(${i})" class="margin-val" />
+            <span class="text-gray-400 text-sm">%</span>
+          </div>
+        </td>
+        <td id="result-${i}" class="text-sm font-semibold"></td>
+      `;
+      tbody.appendChild(tr);
+      recalcRow(i);
+    });
+
+    function ceilingPenny(val) {
+      return Math.ceil(val * 100) / 100;
+    }
+
+    function recalcRow(i) {
+      const tr = document.getElementById('row-' + i);
+      const cost   = parseFloat(tr.querySelector('.cost-val').value);
+      const margin = parseFloat(tr.querySelector('.margin-val').value);
+      const cell   = document.getElementById('result-' + i);
+
+      if (isNaN(cost) || isNaN(margin)) {
+        cell.innerHTML = '<span class="result-empty">—</span>';
+        return;
+      }
+      if (margin <= 0 || margin >= 100) {
+        cell.innerHTML = '<span class="result-warn">Margin must be 1–99%</span>';
+        return;
+      }
+      if (cost < 0) {
+        cell.innerHTML = '<span class="result-warn">Cost must be ≥ 0</span>';
+        return;
+      }
+
+      const minPrice = ceilingPenny(cost / (1 - margin / 100));
+      cell.innerHTML = `<span class="result-ok">£${minPrice.toFixed(2)}</span>`;
+    }
+  </script>
+</body>
+</html>

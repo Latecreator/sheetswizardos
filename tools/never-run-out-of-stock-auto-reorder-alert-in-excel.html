@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Never Run Out of Stock: Auto-Reorder Alert in Excel — Sheets Wizard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --green: #217346; --green-light: #2a9158; --green-pale: #e8f5ee; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f5f5f5; color: #1a1a1a; }
+    .brand-bar { background: var(--green); }
+    .formula-pill {
+      background: #1a1a1a;
+      color: #4ade80;
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      word-break: break-all;
+      letter-spacing: 0.01em;
+    }
+    .card { background: white; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .use-case-badge {
+      background: var(--green);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      padding: 2px 8px;
+    }
+    table { border-collapse: collapse; width: 100%; }
+    th { background: var(--green); color: white; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    th, td { padding: 10px 12px; text-align: left; }
+    tbody tr:nth-child(even) { background: #f8f8f8; }
+    tbody tr:nth-child(odd) { background: white; }
+    input[type="number"] {
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input[type="number"]:focus { border-color: var(--green); box-shadow: 0 0 0 2px rgba(33,115,70,0.15); }
+    input[type="text"] {
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input[type="text"]:focus { border-color: var(--green); box-shadow: 0 0 0 2px rgba(33,115,70,0.15); }
+    .result-ok {
+      background: var(--green-pale);
+      border: 2px solid var(--green);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      font-size: 1rem;
+      color: #155a33;
+      font-weight: 600;
+    }
+    .result-warn {
+      background: #fff8e1;
+      border: 2px solid #f59e0b;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      font-size: 1rem;
+      color: #92400e;
+      font-weight: 600;
+    }
+    .result-empty {
+      background: #f9fafb;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      font-size: 0.9rem;
+      color: #9ca3af;
+      font-style: italic;
+    }
+    .step-num {
+      background: var(--green);
+      color: white;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    footer { background: var(--green); color: white; }
+  </style>
+</head>
+<body>
+
+  <!-- Brand bar -->
+  <div class="brand-bar py-3 px-6 flex items-center gap-3">
+    <div class="w-8 h-8 bg-white rounded flex items-center justify-center">
+      <span class="text-sm font-black" style="color: var(--green);">SW</span>
+    </div>
+    <span class="text-white font-bold text-lg tracking-tight">Sheets Wizard</span>
+    <span class="text-green-200 text-sm ml-auto">@realsheetswizard</span>
+  </div>
+
+  <!-- Hero -->
+  <div style="background: var(--green);" class="px-6 py-10 text-white text-center">
+    <p class="text-green-200 text-xs font-semibold uppercase tracking-widest mb-2">Excel Formula Tips</p>
+    <h1 class="text-2xl md:text-3xl font-bold mb-4 leading-snug">Never Run Out of Stock:<br>Auto-Reorder Alert in Excel</h1>
+    <p class="text-green-100 mb-6 max-w-xl mx-auto text-sm md:text-base">
+      Stop manually comparing stock levels against a minimum threshold. One formula flags the alert and tells you exactly how many units you're short.
+    </p>
+    <div class="formula-pill max-w-2xl mx-auto text-left">
+      =IF(B2&lt;C2,"⚠️ Reorder — "&(C2-B2)&" units short","✅ "&(B2-C2)&" units above minimum")
+    </div>
+    <p class="text-green-200 text-xs mt-3">B2 = current stock &nbsp;|&nbsp; C2 = minimum / reorder point</p>
+  </div>
+
+  <!-- Main content -->
+  <div class="max-w-3xl mx-auto px-4 py-10 space-y-6">
+
+    <!-- How it works -->
+    <div class="card p-6">
+      <h2 class="text-lg font-bold mb-4" style="color: var(--green);">How It Works</h2>
+      <div class="space-y-3">
+        <div class="flex gap-3 items-start">
+          <span class="step-num">1</span>
+          <p class="text-sm mt-1"><strong>IF(B2&lt;C2, …, …)</strong> — checks whether your current stock is below the minimum threshold. If yes, it runs the reorder message; if no, it runs the safe message.</p>
+        </div>
+        <div class="flex gap-3 items-start">
+          <span class="step-num">2</span>
+          <p class="text-sm mt-1"><strong>"⚠️ Reorder — "&(C2-B2)&" units short"</strong> — when stock is low, calculates exactly how many units you need to hit your minimum and shows it in the cell.</p>
+        </div>
+        <div class="flex gap-3 items-start">
+          <span class="step-num">3</span>
+          <p class="text-sm mt-1"><strong>"✅ "&(B2-C2)&" units above minimum"</strong> — when stock is fine, shows the buffer you have. The moment you update a quantity, the status updates automatically.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use case panels -->
+    <div class="grid md:grid-cols-2 gap-4">
+
+      <div class="card p-5">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="use-case-badge">Solopreneur</span>
+        </div>
+        <h3 class="font-bold text-base mb-2">Physical Product Seller</h3>
+        <p class="text-sm text-gray-600 mb-3">
+          You sell handmade or print-on-demand products and track stock in a spreadsheet. Add a minimum column and let this formula do the monitoring — no more selling items you've already run out of:
+        </p>
+        <div class="formula-pill text-xs">
+          =IF(B2&lt;C2,"⚠️ Reorder — "&(C2-B2)&" units short","✅ "&(B2-C2)&" units above minimum")
+        </div>
+        <p class="text-xs text-gray-500 mt-3">
+          Result when low: <em>"⚠️ Reorder — 12 units short"</em>. Result when safe: <em>"✅ 8 units above minimum"</em>.
+        </p>
+      </div>
+
+      <div class="card p-5">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="use-case-badge">Small Business</span>
+        </div>
+        <h3 class="font-bold text-base mb-2">Office or Workshop Supplies</h3>
+        <p class="text-sm text-gray-600 mb-3">
+          You track consumables — printer paper, packaging materials, raw stock — in a shared sheet. Set a minimum for each item and this formula alerts you before you run out, not after:
+        </p>
+        <div class="formula-pill text-xs">
+          =IF(D2&lt;E2,"⚠️ Reorder — "&(E2-D2)&" units short","✅ "&(D2-E2)&" units above minimum")
+        </div>
+        <p class="text-xs text-gray-500 mt-3">
+          Adapt column letters to match your layout. Copy the formula down for every row in your stock list.
+        </p>
+      </div>
+    </div>
+
+    <!-- Interactive calculator -->
+    <div class="card p-6">
+      <h2 class="text-lg font-bold mb-1" style="color: var(--green);">Try It Live</h2>
+      <p class="text-sm text-gray-500 mb-5">Enter your stock details below and see the formula result update instantly.</p>
+
+      <div class="overflow-x-auto rounded-lg border border-gray-200 mb-5">
+        <table id="stockTable">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Current Stock (B)</th>
+              <th>Minimum / Reorder Point (C)</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+
+      <p class="text-xs text-gray-400 mt-2">Edit any value — the status column updates as you type.</p>
+    </div>
+
+    <!-- Pro tips -->
+    <div class="card p-6">
+      <h2 class="text-lg font-bold mb-4" style="color: var(--green);">Pro Tips</h2>
+      <ul class="space-y-3 text-sm text-gray-700">
+        <li class="flex gap-2"><span class="text-green-600 font-bold mt-0.5">→</span> <span><strong>Add conditional formatting:</strong> Highlight the row red when the status starts with "⚠️" using a custom CF rule: <code class="bg-gray-100 px-1 rounded">=LEFT(D2,1)="⚠"</code></span></li>
+        <li class="flex gap-2"><span class="text-green-600 font-bold mt-0.5">→</span> <span><strong>Add a reorder quantity column:</strong> Use <code class="bg-gray-100 px-1 rounded">=MAX(0, C2-B2)</code> next to it to get just the number to order, without the text.</span></li>
+        <li class="flex gap-2"><span class="text-green-600 font-bold mt-0.5">→</span> <span><strong>Count how many items need reordering:</strong> Use <code class="bg-gray-100 px-1 rounded">=COUNTIF(D2:D20,"⚠️*")</code> in a summary cell to see the total at a glance.</span></li>
+        <li class="flex gap-2"><span class="text-green-600 font-bold mt-0.5">→</span> <span><strong>Make the threshold dynamic:</strong> Replace the fixed minimum with a cell reference so you can adjust reorder points without editing the formula.</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-8 px-6 text-center mt-4">
+    <p class="text-green-200 text-sm font-semibold">@realsheetswizard</p>
+    <p class="text-green-300 text-xs mt-1">Excel tips for small business owners and solopreneurs</p>
+  </footer>
+
+  <script>
+    const defaults = [
+      ["Mug — White 11oz", 8, 20],
+      ["Tote Bag — Natural", 35, 15],
+      ["Sticker Sheet A", 4, 25],
+      ["Packaging Boxes", 12, 30],
+      ["Thank You Cards", 55, 20],
+      ["Bubble Mailers", 3, 40],
+    ];
+
+    const tbody = document.getElementById('tableBody');
+
+    defaults.forEach((row, i) => {
+      const tr = document.createElement('tr');
+      tr.id = 'row-' + i;
+      tr.innerHTML = `
+        <td><input type="text" value="${row[0]}" oninput="recalcRow(${i})" class="item-name" /></td>
+        <td><input type="number" value="${row[1]}" min="0" oninput="recalcRow(${i})" class="stock-current" /></td>
+        <td><input type="number" value="${row[2]}" min="0" oninput="recalcRow(${i})" class="stock-min" /></td>
+        <td id="status-${i}" class="text-sm font-semibold"></td>
+      `;
+      tbody.appendChild(tr);
+      recalcRow(i);
+    });
+
+    function recalcRow(i) {
+      const tr = document.getElementById('row-' + i);
+      const current = parseFloat(tr.querySelector('.stock-current').value);
+      const minimum = parseFloat(tr.querySelector('.stock-min').value);
+      const statusCell = document.getElementById('status-' + i);
+
+      if (isNaN(current) || isNaN(minimum)) {
+        statusCell.textContent = '—';
+        statusCell.style.color = '#9ca3af';
+        return;
+      }
+
+      if (current < minimum) {
+        const short = minimum - current;
+        statusCell.textContent = '⚠️ Reorder — ' + short + ' unit' + (short !== 1 ? 's' : '') + ' short';
+        statusCell.style.color = '#b45309';
+      } else {
+        const buffer = current - minimum;
+        statusCell.textContent = '✅ ' + buffer + ' unit' + (buffer !== 1 ? 's' : '') + ' above minimum';
+        statusCell.style.color = '#155a33';
+      }
+    }
+  </script>
+</body>
+</html>

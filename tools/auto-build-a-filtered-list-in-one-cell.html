@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auto-Build a Filtered List in One Cell — Sheets Wizard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --green: #217346; --green-light: #2a9158; --green-pale: #e8f5ee; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f5f5f5; color: #1a1a1a; }
+    .brand-bar { background: var(--green); }
+    .formula-pill {
+      background: #1a1a1a;
+      color: #4ade80;
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      word-break: break-all;
+      letter-spacing: 0.01em;
+    }
+    .card { background: white; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .use-case-badge {
+      background: var(--green);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      padding: 2px 8px;
+    }
+    table { border-collapse: collapse; width: 100%; }
+    th { background: var(--green); color: white; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    th, td { padding: 10px 12px; text-align: left; }
+    tbody tr:nth-child(even) { background: #f8f8f8; }
+    tbody tr:nth-child(odd) { background: white; }
+    input[type="text"] {
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input[type="text"]:focus { border-color: var(--green); box-shadow: 0 0 0 2px rgba(33,115,70,0.15); }
+    select {
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+      background: white;
+      cursor: pointer;
+    }
+    select:focus { border-color: var(--green); }
+    .result-box {
+      background: var(--green-pale);
+      border: 2px solid var(--green);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      color: #155a33;
+      min-height: 3rem;
+      word-break: break-all;
+    }
+    .result-empty { color: #9ca3af; font-style: italic; font-family: inherit; font-size: 0.9rem; }
+    .step-num {
+      background: var(--green);
+      color: white;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    footer { background: var(--green); color: white; }
+  </style>
+</head>
+<body>
+
+  <!-- Brand bar -->
+  <div class="brand-bar py-3 px-6 flex items-center gap-3">
+    <div class="w-8 h-8 bg-white rounded flex items-center justify-center">
+      <span class="text-sm font-black" style="color: var(--green);">SW</span>
+    </div>
+    <span class="text-white font-bold text-lg tracking-tight">Sheets Wizard</span>
+    <span class="text-green-200 text-sm ml-auto">@realsheetswizard</span>
+  </div>
+
+  <!-- Hero -->
+  <div style="background: var(--green);" class="px-6 py-10 text-white text-center">
+    <p class="text-green-200 text-xs font-semibold uppercase tracking-widest mb-2">Excel Formula Tips</p>
+    <h1 class="text-2xl md:text-3xl font-bold mb-4 leading-snug">Auto-Build a Filtered List<br>in One Cell</h1>
+    <p class="text-green-100 mb-6 max-w-xl mx-auto text-sm md:text-base">
+      Stop copying and pasting active items into your reports by hand. TEXTJOIN + IF does it automatically.
+    </p>
+    <div class="formula-pill max-w-2xl mx-auto text-left">
+      =TEXTJOIN(", ", TRUE, IF(B2:B10="Active", A2:A10, ""))
+    </div>
+    <p class="text-green-200 text-xs mt-3">In Excel 365/2021: press Enter. Older Excel: Ctrl+Shift+Enter</p>
+  </div>
+
+  <!-- Main content -->
+  <div class="max-w-3xl mx-auto px-4 py-10 space-y-6">
+
+    <!-- How it works -->
+    <div class="card p-6">
+      <h2 class="text-lg font-bold mb-4" style="color: var(--green);">How It Works</h2>
+      <div class="space-y-3">
+        <div class="flex gap-3 items-start">
+          <span class="step-num">1</span>
+          <p class="text-sm mt-1"><strong>IF(B2:B10="Active", A2:A10, "")</strong> — scans each row and returns the name if the status matches, or a blank if it doesn't.</p>
+        </div>
+        <div class="flex gap-3 items-start">
+          <span class="step-num">2</span>
+          <p class="text-sm mt-1"><strong>TEXTJOIN(", ", TRUE, …)</strong> — combines all non-blank results into one cell, separated by commas. The TRUE argument skips any blanks automatically.</p>
+        </div>
+        <div class="flex gap-3 items-start">
+          <span class="step-num">3</span>
+          <p class="text-sm mt-1"><strong>Change the status word</strong> to match your data — "Done", "Paid", "In Progress", or whatever label you use. The formula adapts instantly.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use case panels -->
+    <div class="grid md:grid-cols-2 gap-4">
+
+      <div class="card p-5">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="use-case-badge">Solopreneur</span>
+        </div>
+        <h3 class="font-bold text-base mb-2">Active Client Summary</h3>
+        <p class="text-sm text-gray-600 mb-3">
+          You've got a client tracker with 20 rows. Some are Active, some Paused, some Completed.
+          Instead of filtering every time you want a quick list of who you're actively working with, put this in a summary cell:
+        </p>
+        <div class="formula-pill text-xs">
+          =TEXTJOIN(", ", TRUE, IF(C2:C20="Active", A2:A20, ""))
+        </div>
+        <p class="text-xs text-gray-500 mt-3">
+          Result: <em>"Sarah's Bakery, TechStart Ltd, Jamie Freelance"</em> — updates the moment you change a status.
+        </p>
+      </div>
+
+      <div class="card p-5">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="use-case-badge">Small Business</span>
+        </div>
+        <h3 class="font-bold text-base mb-2">Weekly Task Rollup</h3>
+        <p class="text-sm text-gray-600 mb-3">
+          Your team tracks tasks in a shared spreadsheet with a Status column. At your weekly review, you want a single-cell summary of everything still "In Progress" — without manually scanning 50 rows:
+        </p>
+        <div class="formula-pill text-xs">
+          =TEXTJOIN(", ", TRUE, IF(D2:D50="In Progress", B2:B50, ""))
+        </div>
+        <p class="text-xs text-gray-500 mt-3">
+          Drop this into your dashboard header. No filtering, no copying — the list builds itself.
+        </p>
+      </div>
+    </div>
+
+    <!-- Interactive calculator -->
+    <div class="card p-6">
+      <h2 class="text-lg font-bold mb-1" style="color: var(--green);">Try It Live</h2>
+      <p class="text-sm text-gray-500 mb-5">Enter your items and statuses below. Change the filter word to see your list update instantly.</p>
+
+      <!-- Filter input -->
+      <div class="flex items-center gap-3 mb-5 p-4 rounded-lg" style="background: var(--green-pale);">
+        <label class="text-sm font-semibold whitespace-nowrap" style="color: var(--green);">Filter by status:</label>
+        <input type="text" id="filterWord" value="Active" class="max-w-xs" oninput="calculate()" />
+        <span class="text-xs text-gray-500">(case-sensitive — match your spreadsheet exactly)</span>
+      </div>
+
+      <!-- Data table -->
+      <div class="overflow-x-auto rounded-lg border border-gray-200 mb-5">
+        <table id="dataTable">
+          <thead>
+            <tr>
+              <th style="width: 48px;">#</th>
+              <th>Item Name <span class="font-normal text-green-200">(Column A)</span></th>
+              <th>Status <span class="font-normal text-green-200">(Column B)</span></th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Result -->
+      <div class="mb-2">
+        <label class="block text-sm font-semibold mb-2" style="color: var(--green);">
+          Result — matching items joined into one cell:
+        </label>
+        <div class="result-box" id="resultBox">
+          <span class="result-empty">Enter some items and statuses above to see your result…</span>
+        </div>
+      </div>
+      <p class="text-xs text-gray-400" id="matchCount"></p>
+    </div>
+
+    <!-- Pro tips -->
+    <div class="card p-6">
+      <h2 class="text-lg font-bold mb-4" style="color: var(--green);">Pro Tips</h2>
+      <ul class="space-y-3 text-sm text-gray-700">
+        <li class="flex gap-2"><span class="text-green-600 font-bold mt-0.5">→</span> <span><strong>Change the separator:</strong> Replace <code class="bg-gray-100 px-1 rounded">", "</code> with <code class="bg-gray-100 px-1 rounded">" | "</code> or <code class="bg-gray-100 px-1 rounded">" / "</code> for different display styles.</span></li>
+        <li class="flex gap-2"><span class="text-green-600 font-bold mt-0.5">→</span> <span><strong>Make the filter dynamic:</strong> Replace <code class="bg-gray-100 px-1 rounded">"Active"</code> with a cell reference like <code class="bg-gray-100 px-1 rounded">E1</code> — then change E1 to switch what you're filtering instantly.</span></li>
+        <li class="flex gap-2"><span class="text-green-600 font-bold mt-0.5">→</span> <span><strong>Expand your range:</strong> Use a full column reference like <code class="bg-gray-100 px-1 rounded">B:B</code> so the formula picks up new rows automatically as your list grows.</span></li>
+        <li class="flex gap-2"><span class="text-green-600 font-bold mt-0.5">→</span> <span><strong>Combine with COUNT:</strong> Pair with <code class="bg-gray-100 px-1 rounded">=COUNTIF(B2:B10,"Active")</code> to show both the count and the names in your dashboard.</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-8 px-6 text-center mt-4">
+    <p class="text-green-200 text-sm font-semibold">@realsheetswizard</p>
+    <p class="text-green-300 text-xs mt-1">Excel tips for small business owners and solopreneurs</p>
+  </footer>
+
+  <script>
+    // Build default table rows
+    const defaults = [
+      ["Sarah's Bakery", "Active"],
+      ["TechStart Ltd", "Active"],
+      ["Jamie Freelance", "Paused"],
+      ["Corner Shop Co", "Active"],
+      ["Old Client Inc", "Completed"],
+      ["New Lead Ltd", "Paused"],
+      ["StreamStudio", "Active"],
+      ["BlueBird Agency", "Completed"],
+    ];
+
+    const tbody = document.getElementById('tableBody');
+
+    defaults.forEach((row, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="text-gray-400 text-xs font-mono">${i + 1}</td>
+        <td><input type="text" value="${row[0]}" oninput="calculate()" class="name-input" /></td>
+        <td>
+          <input type="text" value="${row[1]}" oninput="calculate()" class="status-input" />
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    function calculate() {
+      const filterWord = document.getElementById('filterWord').value.trim();
+      const rows = tbody.querySelectorAll('tr');
+      const matched = [];
+
+      rows.forEach(row => {
+        const name = row.querySelector('.name-input')?.value?.trim() || '';
+        const status = row.querySelector('.status-input')?.value?.trim() || '';
+        if (name && status === filterWord) {
+          matched.push(name);
+        }
+      });
+
+      const resultBox = document.getElementById('resultBox');
+      const matchCount = document.getElementById('matchCount');
+
+      if (matched.length === 0) {
+        resultBox.innerHTML = '<span class="result-empty">No items match "' + escapeHtml(filterWord) + '" — try adjusting the filter word or item statuses.</span>';
+        matchCount.textContent = '';
+      } else {
+        resultBox.textContent = matched.join(', ');
+        matchCount.textContent = matched.length + ' matching item' + (matched.length > 1 ? 's' : '') + ' found.';
+      }
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // Initial calc
+    calculate();
+  </script>
+</body>
+</html>
